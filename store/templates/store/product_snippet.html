@@ -1,0 +1,118 @@
+{% load static %}
+
+{% load humanize %}
+{% load l10n %}
+{% load i18n %}
+
+<!--Main layout-->
+<main id="home">
+    <div class="container">
+
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
+
+        <!-- Navbar brand -->
+        <span class="navbar-brand">Categories:</span>
+
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+        aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="basicExampleNav">
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'store:all-product' %}">All
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            
+            {% for category in categories %}
+                <li class="nav-item">
+                    <a href="{% url 'store:category' category.category_slug %}" class="nav-link">{{ category.category }}</a>
+                </li>
+            {% endfor %}
+
+        </ul>
+        <!-- Links -->
+
+        <form class="form-inline" action="/" method='GET'>
+            <div class="md-form my-0">
+            <input class="form-control mr-sm-2" name="search-area" type="text" placeholder="Search" aria-label="Search" value="{{ search_input }}">
+            </div>
+        </form>
+        </div>
+        <!-- Collapsible content -->
+
+    </nav>
+    <!--/.Navbar-->
+
+    <!--Section: Products v.3-->
+    <section class="text-center mb-4">
+
+        <!--Grid row-->
+        <div class="row wow fadeIn product__container">
+    
+            {% for product in products %}
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 product__content {{ product.category_slug }}">
+
+                    <!--Card-->
+                    <div class="card">
+
+                    <!--Card image-->
+                    <div class="view overlay">
+                        <img src="{{ product.image_url }}" class="card-img-top"
+                        alt="">
+                        <a href="{% url 'store:product-detail' product.slug %}">
+                        <div class="mask rgba-white-slight"></div>
+                        </a>
+                    </div>
+                    <!--Card image-->
+
+                    <!--Card content-->
+                    <div class="card-body text-center">
+                        <!--Category & Title-->
+                        <a href="{% url 'store:product-detail' product.slug %}" class="grey-text">
+                            <h5>{{ product.category }}</h5>
+                        </a>
+                        <h5>
+                        <strong>
+                            <a href="{{ product.get_absolute_url }}" class="dark-grey-text">{{ product.name }}
+                                <span class="badge badge-pill danger-color">NEW</span>
+                            </a>
+                        </strong>
+                        </h5>
+
+                        <a href="{% url 'store:product-detail' product.slug %}">
+                            <h4 class="font-weight-bold blue-text">
+                                {% language 'de' %}
+                                    <strong>Rp. {{ product.price|intcomma }}</strong>
+                                {% endlanguage %}
+                            </h4>
+                        </a>
+
+                    </div>
+                    <!--Card content-->
+
+                    </div>
+                    <!--Card-->
+
+                </div>
+                <!--Grid column-->
+            {% endfor %}
+                
+        </div>
+        <!--Grid row-->
+
+       
+
+    </section>
+    <!--Section: Products v.3-->
+    </div>
+</main>
+<!--Main layout-->

@@ -1,0 +1,82 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <main>
+        <div class="container mt-5">
+            <section class="text-center mb-4">
+                <img src="{{ customer.image_url }}" alt="" class="rounded-circle"  style="width: 200px; height: 200px;">
+                <h1>{{ request.user }}</h1>
+
+                <br>
+                <br>
+                <div class="table-responsive text-nowrap">
+                    <h2>Order Summary</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Order Date</th>
+                                <th scope="col">Being Delivered</th>
+                                <th scope="col">Received</th>
+                                <th scope="col">Refund Requested</th>
+                                <th scope="col">Refund Granted</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        
+                            {% for order in orders %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>
+                                        <a href="{% url 'store:order-detail' order.id %}">{{ order.ordered_date }}</a>
+                                    </td>
+                                    <td>
+                                        
+                                        {% if order.being_delivered %}
+                                            <i class="fas fa-check-circle"></i>
+                                        {% else %}
+                                            <i   i class="fas fa-times-circle"></i>
+                                        {% endif %}
+                                            
+                                    </td>
+                                    <td>
+                                        {% if order.being_received %}
+                                            <i class="fas fa-check-circle"></i>
+                                        {% else %}
+                                            <i   i class="fas fa-times-circle"></i>
+                                        {% endif %}
+                                            
+                                    </td>
+                                    <td>
+                                        {% if order.refund_requested %}
+                                            <i class="fas fa-check-circle"></i>
+                                        {% else %}
+                                            <i   i class="fas fa-times-circle"></i>
+                                        {% endif %}
+                                            
+                                    </td>
+                                    <td>
+                                        {% if order.refund_granted %}
+                                            <i class="fas fa-check-circle"></i>
+                                        {% else %}
+                                            <i   i class="fas fa-times-circle"></i>
+                                        {% endif %}
+                                            
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6">You do not have an order</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+        
+                </div>
+            </section>
+        </div>
+    </main>
+{% endblock content %}
+    
